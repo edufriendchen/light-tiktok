@@ -1,9 +1,11 @@
 package initialize
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/cloudwego/kitex/pkg/klog"
+	"github.com/edufriendchen/light-tiktok/pkg/global"
+	"github.com/edufriendchen/light-tiktok/pkg/viper"
 	"github.com/nacos-group/nacos-sdk-go/clients"
 	"github.com/nacos-group/nacos-sdk-go/clients/naming_client"
 	"github.com/nacos-group/nacos-sdk-go/common/constant"
@@ -50,6 +52,9 @@ func InitNacos() (naming_client.INamingClient, error) {
 		Group:  "DEFAULT_GROUP", //此处对应之前的网页配置的分组
 	})
 
-	fmt.Println("配置文件：", content)
+	global.Config, err = viper.NewConfig("", content)
+	if err != nil {
+		log.Println("config:", global.Config, "err:", err)
+	}
 	return cli, nil
 }

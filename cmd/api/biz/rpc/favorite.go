@@ -9,7 +9,7 @@ import (
 	"github.com/edufriendchen/light-tiktok/kitex_gen/favorite/favoriteservice"
 	"github.com/edufriendchen/light-tiktok/pkg/consts"
 	"github.com/edufriendchen/light-tiktok/pkg/errno"
-	"github.com/edufriendchen/light-tiktok/pkg/initialize"
+	"github.com/edufriendchen/light-tiktok/pkg/global"
 	"github.com/kitex-contrib/obs-opentelemetry/tracing"
 	"github.com/kitex-contrib/registry-nacos/resolver"
 )
@@ -17,13 +17,12 @@ import (
 var favoriteClient favoriteservice.Client
 
 func initFavorite() {
-	cli, err := initialize.InitNacos()
 	c, err := favoriteservice.NewClient(
-		consts.FavoriteServiceName,
-		client.WithResolver(resolver.NewNacosResolver(cli)),
+		consts.FAVORITE_SERVICE_NAME,
+		client.WithResolver(resolver.NewNacosResolver(global.NacosClient)),
 		client.WithMuxConnection(1),
 		client.WithSuite(tracing.NewClientSuite()),
-		client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.ApiServiceName}),
+		client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.API_SERVICE_NAME}),
 	)
 	if err != nil {
 		panic(err)

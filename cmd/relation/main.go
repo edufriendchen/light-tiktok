@@ -26,7 +26,7 @@ func Init() {
 func main() {
 	Init()
 	cli, _ := initialize.InitNacos()
-	addr, err := net.ResolveTCPAddr(consts.TCP, consts.RelationServiceAddr)
+	addr, err := net.ResolveTCPAddr(consts.TCP, consts.RELATION_SERVICE_ADDR)
 	if err != nil {
 		panic(err)
 	}
@@ -34,14 +34,14 @@ func main() {
 		server.WithServiceAddr(addr),
 		server.WithRegistry(registry_nacos.NewNacosRegistry(cli)),
 		server.WithRegistryInfo(&registry.Info{
-			ServiceName: consts.RelationServiceName,
+			ServiceName: consts.RELATION_SERVICE_NAME,
 			Addr:        addr,
 			Weight:      10,
 			Tags:        nil,
 		}),
 		server.WithLimit(&limit.Option{MaxConnections: 1000, MaxQPS: 100}),
 		server.WithMuxTransport(),
-		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.RelationServiceName}),
+		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.RELATION_SERVICE_NAME}),
 	)
 	err = svr.Run()
 	if err != nil {

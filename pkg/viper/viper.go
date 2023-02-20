@@ -27,8 +27,8 @@ func (v *config) init(envPrefix, file string) error {
 	replacer := strings.NewReplacer(`.`, `_`)
 	viper.SetEnvKeyReplacer(replacer)
 	viper.SetConfigType(`json`)
-	viper.SetConfigFile(file)
-	if err := viper.ReadInConfig(); err != nil {
+
+	if err := viper.ReadConfig(strings.NewReader(file)); err != nil {
 		log.Println(err)
 		return err
 	}

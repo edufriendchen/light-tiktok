@@ -8,5 +8,5 @@ import (
 
 // InitJWT to init JWT
 func InitJWT() {
-	global.Jwt = jwt.NewJWT([]byte(consts.JWTSecretKey))
+	global.Jwt = jwt.NewJWT([]byte(global.Config.GetString(consts.JWT_SECRET_KEY)))
 }

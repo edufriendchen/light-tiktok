@@ -18,6 +18,7 @@ import (
 )
 
 func Init() {
+	global.NacosClient, _ = initialize.InitNacos()
 	initialize.InitDB()
 	initialize.InitNeo4j()
 	initialize.InitJWT()
@@ -27,14 +28,14 @@ func Init() {
 }
 
 func main() {
-	addr, err := net.ResolveTCPAddr(consts.TCP, consts.UserServiceAddr)
+	addr, err := net.ResolveTCPAddr(consts.TCP, consts.USER_SERVICE_ADDR)
 	if err != nil {
 		panic(err)
 	}
 	Init()
 	ctx := context.Background()
 	defer global.Neo4jDriver.Close(ctx)
-	cli, _ := initialize.InitNacos()
+
 	// provider.NewOpenTelemetryProvider(
 	// 	provider.WithServiceName(consts.UserServiceName),
 	// 	provider.WithExportEndpoint(consts.ExportEndpoint),
@@ -42,9 +43,9 @@ func main() {
 	// )
 	svr := userservice.NewServer(new(UserServiceImpl),
 		server.WithServiceAddr(addr),
-		server.WithRegistry(registry_nacos.NewNacosRegistry(cli)),
+		server.WithRegistry(registry_nacos.NewNacosRegistry(global.NacosClient)),
 		server.WithRegistryInfo(&registry.Info{
-			ServiceName: consts.UserServiceName,
+			ServiceName: consts.USER_SERVICE_NAME,
 			Addr:        addr,
 			Weight:      10,
 			Tags:        nil,
@@ -52,7 +53,7 @@ func main() {
 		server.WithLimit(&limit.Option{MaxConnections: 1000, MaxQPS: 100}),
 		server.WithMuxTransport(),
 		//server.WithSuite(tracing.NewServerSuite()),
-		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.UserServiceName}),
+		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.USER_SERVICE_NAME}),
 	)
 	err = svr.Run()
 	if err != nil {

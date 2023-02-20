@@ -10,6 +10,7 @@ import (
 	"github.com/edufriendchen/httpvlog"
 	"github.com/edufriendchen/light-tiktok/cmd/api/biz/rpc"
 	"github.com/edufriendchen/light-tiktok/pkg/consts"
+	"github.com/edufriendchen/light-tiktok/pkg/global"
 	"github.com/edufriendchen/light-tiktok/pkg/initialize"
 	"github.com/hertz-contrib/obs-opentelemetry/logging/logrus"
 	"github.com/hertz-contrib/obs-opentelemetry/tracing"
@@ -17,6 +18,7 @@ import (
 )
 
 func Init() {
+	global.NacosClient, _ = initialize.InitNacos()
 	rpc.Init()
 	initialize.InitJWT()
 	hlog.SetLogger(logrus.NewLogger())
@@ -25,14 +27,13 @@ func Init() {
 
 func main() {
 	Init()
-	cli, _ := initialize.InitNacos()
 	tracer, cfg := tracing.NewServerTracer()
 	h := server.New(
-		server.WithHostPorts(consts.ApiServiceAddr),
+		server.WithHostPorts(consts.API_SERVICE_ADDR),
 		server.WithHandleMethodNotAllowed(true),
-		server.WithRegistry(nacos.NewNacosRegistry(cli), &registry.Info{
-			ServiceName: consts.ApiServiceName,
-			Addr:        utils.NewNetAddr(consts.TCP, consts.ApiServiceAddr),
+		server.WithRegistry(nacos.NewNacosRegistry(global.NacosClient), &registry.Info{
+			ServiceName: consts.API_SERVICE_NAME,
+			Addr:        utils.NewNetAddr(consts.TCP, consts.API_SERVICE_ADDR),
 			Weight:      10,
 			Tags:        nil,
 		}),

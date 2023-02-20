@@ -91,9 +91,9 @@ func IsVideoAllowed(suffix string) bool {
 
 func Upload(file io.Reader, filename string, size int64) (string, error) {
 	putPolicy := storage.PutPolicy{
-		Scope: consts.MinioVideoBucketName,
+		Scope: global.Config.GetString(consts.MINIO_BUCKET_NAME),
 	}
-	mac := qbox.NewMac(consts.MinioAccessKeyId, consts.MinioSecretAccessKey)
+	mac := qbox.NewMac(global.Config.GetString(consts.MINIO_ACCESS_KEY), global.Config.GetString(consts.MINIO_SECRET_ACCESS_KEY))
 	upToken := putPolicy.UploadToken(mac)
 	cfg := storage.Config{}
 	// 空间对应的机房
@@ -114,9 +114,9 @@ func Upload(file io.Reader, filename string, size int64) (string, error) {
 
 func UploadCover(localFile string, filename string, size int64) (string, error) {
 	putPolicy := storage.PutPolicy{
-		Scope: consts.MinioVideoBucketName,
+		Scope: global.Config.GetString(consts.MINIO_BUCKET_NAME),
 	}
-	mac := qbox.NewMac(consts.MinioAccessKeyId, consts.MinioSecretAccessKey)
+	mac := qbox.NewMac(global.Config.GetString(consts.MINIO_ACCESS_KEY), global.Config.GetString(consts.MINIO_SECRET_ACCESS_KEY))
 	upToken := putPolicy.UploadToken(mac)
 	cfg := storage.Config{}
 	// 空间对应的机房

@@ -25,7 +25,7 @@ func Init() {
 }
 
 func main() {
-	addr, err := net.ResolveTCPAddr(consts.TCP, consts.PushlishServiceddr)
+	addr, err := net.ResolveTCPAddr(consts.TCP, consts.PUBLISH_SERVICE_ADDR)
 	if err != nil {
 		panic(err)
 	}
@@ -40,7 +40,7 @@ func main() {
 		server.WithServiceAddr(addr),
 		server.WithRegistry(registry_nacos.NewNacosRegistry(cli)),
 		server.WithRegistryInfo(&registry.Info{
-			ServiceName: consts.PushlishServiceName,
+			ServiceName: consts.PUBLISH_SERVICE_NAME,
 			Addr:        addr,
 			Weight:      10,
 			Tags:        nil,
@@ -48,7 +48,7 @@ func main() {
 		server.WithLimit(&limit.Option{MaxConnections: 1000, MaxQPS: 100}),
 		server.WithMuxTransport(),
 		//server.WithSuite(tracing.NewServerSuite()),
-		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.PushlishServiceName}),
+		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.PUBLISH_SERVICE_NAME}),
 	)
 	err = svr.Run()
 	if err != nil {

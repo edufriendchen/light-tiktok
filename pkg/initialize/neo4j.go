@@ -9,7 +9,7 @@ import (
 )
 
 func InitNeo4j() {
-	driver, err := neo4j.NewDriverWithContext(consts.Neo4jUri, neo4j.BasicAuth("neo4j", "friendchen0429", ""))
+	driver, err := neo4j.NewDriverWithContext(global.Config.GetString(consts.DB_NEO4J_URI), neo4j.BasicAuth(global.Config.GetString(consts.DB_NEO4J_USERNAME), global.Config.GetString(consts.DB_NEO4J_PASS), ""))
 	global.Neo4jDriver = driver
 	if err != nil {
 		klog.Infof("Neo4j Init Error: %v", err)

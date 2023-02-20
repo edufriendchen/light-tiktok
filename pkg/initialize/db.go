@@ -23,7 +23,8 @@ func InitDB() {
 			LogLevel:      logger.Info,
 		},
 	)
-	global.DB, err = gorm.Open(mysql.Open(consts.MySQLDefaultDSN),
+
+	global.DB, err = gorm.Open(mysql.Open(global.Config.GetString(consts.MYSQL_DEFAULT_DSN)),
 		&gorm.Config{
 			PrepareStmt: true,
 			Logger:      gormlogrus,

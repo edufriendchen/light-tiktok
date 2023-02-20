@@ -11,9 +11,9 @@ import (
 
 // Minio 对象存储初始化
 func InitMinio() {
-	client, err := minio.New(consts.MinioEndpoint, &minio.Options{
-		Creds:  credentials.NewStaticV4(consts.MinioAccessKeyId, consts.MinioSecretAccessKey, ""),
-		Secure: consts.MinioUseSSL,
+	client, err := minio.New(global.Config.GetString(consts.MINIO_ENDPOINT), &minio.Options{
+		Creds:  credentials.NewStaticV4(global.Config.GetString(consts.MINIO_ACCESS_KEY), global.Config.GetString(consts.MINIO_SECRET_ACCESS_KEY), ""),
+		Secure: global.Config.GetBool(consts.MINIO_USER_SSL),
 	})
 	if err != nil {
 		klog.Errorf("minio client init failed: %v", err)
@@ -21,7 +21,7 @@ func InitMinio() {
 	// fmt.Println(client)
 	klog.Debug("minio client init successfully")
 	global.MinioClient = client
-	if err := util.CreateBucket(consts.MinioVideoBucketName); err != nil {
+	if err := util.CreateBucket(global.Config.GetString(consts.MINIO_BUCKET_NAME)); err != nil {
 		klog.Errorf("minio client init failed: %v", err)
 	}
 }

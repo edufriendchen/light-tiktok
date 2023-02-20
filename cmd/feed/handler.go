@@ -30,7 +30,7 @@ func (s *FeedServiceImpl) MGetFeedList(ctx context.Context, req *feed.FeedReques
 		}
 		user_id = claims.Id
 	}
-	list, err := service.NewMGetFeedListService(ctx, global.Neo4jDriver).MGetFeedList(req, consts.Limit, user_id)
+	list, err := service.NewMGetFeedListService(ctx, global.Neo4jDriver).MGetFeedList(req, global.Config.GetInt(consts.LIMIT), user_id)
 	if err != nil {
 		resp = &feed.FeedResponse{StatusCode: errno.ServiceErr.ErrCode, StatusMsg: &errno.ServiceErr.ErrMsg}
 		return resp, err
