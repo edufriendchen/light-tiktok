@@ -10,14 +10,15 @@ import (
 	"github.com/cloudwego/kitex/server"
 	"github.com/edufriendchen/light-tiktok/kitex_gen/publish/publishservice"
 	"github.com/edufriendchen/light-tiktok/pkg/consts"
+	"github.com/edufriendchen/light-tiktok/pkg/global"
 	"github.com/edufriendchen/light-tiktok/pkg/initialize"
 	"github.com/kitex-contrib/obs-opentelemetry/logging/logrus"
 	registry_nacos "github.com/kitex-contrib/registry-nacos/registry"
 )
 
 func Init() {
+	initialize.InitNacos()
 	initialize.InitSonyflake()
-	initialize.InitDB()
 	initialize.InitNeo4j()
 	initialize.InitJWT()
 	klog.SetLogger(logrus.NewLogger())
@@ -30,7 +31,7 @@ func main() {
 		panic(err)
 	}
 	Init()
-	cli, _ := initialize.InitNacos()
+	//cli, _ := initialize.InitNacos()
 	// provider.NewOpenTelemetryProvider(
 	// 	provider.WithServiceName(consts.UserServiceName),
 	// 	provider.WithExportEndpoint(consts.ExportEndpoint),
@@ -38,7 +39,7 @@ func main() {
 	// )
 	svr := publishservice.NewServer(new(PublishServiceImpl),
 		server.WithServiceAddr(addr),
-		server.WithRegistry(registry_nacos.NewNacosRegistry(cli)),
+		server.WithRegistry(registry_nacos.NewNacosRegistry(global.NacosClient)),
 		server.WithRegistryInfo(&registry.Info{
 			ServiceName: consts.PUBLISH_SERVICE_NAME,
 			Addr:        addr,

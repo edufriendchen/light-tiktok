@@ -10,7 +10,6 @@ import (
 	"github.com/edufriendchen/light-tiktok/pkg/consts"
 	"github.com/edufriendchen/light-tiktok/pkg/errno"
 	"github.com/edufriendchen/light-tiktok/pkg/global"
-	"github.com/kitex-contrib/obs-opentelemetry/tracing"
 	"github.com/kitex-contrib/registry-nacos/resolver"
 )
 
@@ -21,7 +20,7 @@ func initComment() {
 		consts.COMMENT_SERVICE_NAME,
 		client.WithResolver(resolver.NewNacosResolver(global.NacosClient)),
 		client.WithMuxConnection(1),
-		client.WithSuite(tracing.NewClientSuite()),
+		//client.WithSuite(tracing.NewClientSuite()),
 		client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: consts.API_SERVICE_NAME}),
 	)
 	if err != nil {

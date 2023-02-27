@@ -13,12 +13,11 @@ import (
 	"github.com/edufriendchen/light-tiktok/pkg/global"
 	"github.com/edufriendchen/light-tiktok/pkg/initialize"
 	"github.com/hertz-contrib/obs-opentelemetry/logging/logrus"
-	"github.com/hertz-contrib/obs-opentelemetry/tracing"
 	"github.com/hertz-contrib/registry/nacos"
 )
 
 func Init() {
-	global.NacosClient, _ = initialize.InitNacos()
+	initialize.InitNacos()
 	rpc.Init()
 	initialize.InitJWT()
 	hlog.SetLogger(logrus.NewLogger())
@@ -27,7 +26,7 @@ func Init() {
 
 func main() {
 	Init()
-	tracer, cfg := tracing.NewServerTracer()
+	//tracer, cfg := tracing.NewServerTracer()
 	h := server.New(
 		server.WithHostPorts(consts.API_SERVICE_ADDR),
 		server.WithHandleMethodNotAllowed(true),
@@ -38,9 +37,9 @@ func main() {
 			Tags:        nil,
 		}),
 		server.WithMaxRequestBodySize(100<<20),
-		tracer,
+		//tracer,
 	)
-	h.Use(tracing.ServerMiddleware(cfg))
+	//h.Use(tracing.ServerMiddleware(cfg))
 	h.Use(httpvlog.Logger())
 	register(h)
 	h.Spin()

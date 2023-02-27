@@ -9,7 +9,6 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/plugin/opentelemetry/logging/logrus"
-	//"gorm.io/plugin/opentelemetry/logging/logrus"
 )
 
 // InitDB to init DB
@@ -33,7 +32,4 @@ func InitDB() {
 	if err != nil {
 		panic(err)
 	}
-	// if err := global.DB.Use(tracing.NewPlugin()); err != nil {
-	// 	panic(err)
-	// }
 }

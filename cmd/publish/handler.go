@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/edufriendchen/light-tiktok/cmd/publish/service"
 	"github.com/edufriendchen/light-tiktok/kitex_gen/publish"
@@ -10,12 +9,9 @@ import (
 	"github.com/edufriendchen/light-tiktok/pkg/global"
 )
 
-// PublishServiceImpl implements the last service interface defined in the IDL.
 type PublishServiceImpl struct{}
 
-// ActionPulish implements the PublishServiceImpl interface.
 func (s *PublishServiceImpl) ActionPulish(ctx context.Context, req *publish.ActionRequest) (resp *publish.ActionResponse, err error) {
-	// TODO: Your code here...
 	resp = new(publish.ActionResponse)
 	if err = req.IsValid(); err != nil {
 		resp = &publish.ActionResponse{StatusCode: errno.ParamErr.ErrCode, StatusMsg: &errno.ParamErr.ErrMsg}
@@ -35,11 +31,8 @@ func (s *PublishServiceImpl) ActionPulish(ctx context.Context, req *publish.Acti
 	return resp, nil
 }
 
-// MGetPublishList implements the PublishServiceImpl interface.
 func (s *PublishServiceImpl) MGetPublishList(ctx context.Context, req *publish.PublishRequest) (resp *publish.PublishResponse, err error) {
-	// TODO: Your code here...
 	resp = new(publish.PublishResponse)
-	fmt.Println("req:", req)
 	if err = req.IsValid(); err != nil {
 		resp = &publish.PublishResponse{StatusCode: errno.ParamErr.ErrCode, StatusMsg: &errno.ParamErr.ErrMsg}
 		return resp, err

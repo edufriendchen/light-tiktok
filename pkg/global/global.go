@@ -1,7 +1,8 @@
 package global
 
 import (
-	configtype "github.com/edufriendchen/light-tiktok/pkg/config"
+	customCache "github.com/edufriendchen/light-tiktok/pkg/cache"
+	myconfig "github.com/edufriendchen/light-tiktok/pkg/config"
 	"github.com/edufriendchen/light-tiktok/pkg/jwt"
 	"github.com/minio/minio-go/v7"
 	"github.com/nacos-group/nacos-sdk-go/clients/naming_client"
@@ -11,11 +12,12 @@ import (
 )
 
 var (
-	Config       configtype.Config
+	Config       myconfig.Config
 	NacosClient  naming_client.INamingClient
 	Neo4jDriver  neo4j.DriverWithContext
 	Jwt          *jwt.JWT
 	DB           *gorm.DB
 	MinioClient  *minio.Client
 	ID_GENERATOR *sonyflake.Sonyflake
+	CacheManager customCache.Client
 )

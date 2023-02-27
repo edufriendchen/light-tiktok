@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/cloudwego/kitex/pkg/klog"
+	"github.com/edufriendchen/light-tiktok/pkg/consts"
 	"github.com/edufriendchen/light-tiktok/pkg/global"
 	"github.com/edufriendchen/light-tiktok/pkg/viper"
 	"github.com/nacos-group/nacos-sdk-go/clients"
@@ -16,17 +17,17 @@ import (
 func InitNacos() (naming_client.INamingClient, error) {
 	// Read configuration information from nacos
 	sc := []constant.ServerConfig{
-		*constant.NewServerConfig("127.0.0.1", 8848),
+		*constant.NewServerConfig(consts.NACOS_ADDR, 8848),
 	}
 	cc := constant.ClientConfig{
 		NamespaceId:         "public",
 		TimeoutMs:           5000,
 		NotLoadCacheAtStart: true,
-		LogDir:              "/tmp/nacos/log",
-		CacheDir:            "/tmp/nacos/cache",
-		LogLevel:            "info",
-		Username:            "nacos",
-		Password:            "nacosfriend0429",
+		LogDir:              "log",
+		CacheDir:            "cache",
+		LogLevel:            "debug",
+		Username:            consts.NACOS_USERNAME,
+		Password:            consts.NACOS_PASSWORD,
 	}
 	cli, err := clients.NewNamingClient(
 		vo.NacosClientParam{
@@ -38,6 +39,8 @@ func InitNacos() (naming_client.INamingClient, error) {
 		klog.Infof("Nacos Init Error: %v", err)
 	}
 
+	global.NacosClient = cli
+
 	// Create naming client for service discovery
 	configClient, err := clients.CreateConfigClient(map[string]interface{}{
 		"serverConfigs": sc,
@@ -46,15 +49,14 @@ func InitNacos() (naming_client.INamingClient, error) {
 		klog.Fatal(err)
 	}
 
-	//读取文件
 	content, err := configClient.GetConfig(vo.ConfigParam{
-		DataId: "TIKTOK_JSON",   //此处对应之前的网页配置的名称
-		Group:  "DEFAULT_GROUP", //此处对应之前的网页配置的分组
+		DataId: "TIKTOK_JSON",
+		Group:  "DEFAULT_GROUP",
 	})
 
 	global.Config, err = viper.NewConfig("", content)
 	if err != nil {
-		log.Println("config:", global.Config, "err:", err)
+		log.Println("nacos pull config err:", err)
 	}
 	return cli, nil
 }

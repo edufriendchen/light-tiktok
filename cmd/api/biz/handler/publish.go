@@ -3,6 +3,7 @@ package handler
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"io"
 
 	"github.com/cloudwego/hertz/pkg/app"
@@ -16,6 +17,7 @@ func PublishAction(ctx context.Context, c *app.RequestContext) {
 	token := c.PostForm("token")
 	title := c.PostForm("title")
 	FormFile, err := c.Request.FormFile("data")
+	fmt.Println("token:", token)
 	if err != nil {
 		c.JSON(consts.StatusOK, &publish.ActionResponse{StatusCode: errno.ParamErr.ErrCode, StatusMsg: &errno.ParamErr.ErrMsg})
 		return
@@ -61,4 +63,15 @@ func MGetPublishList(ctx context.Context, c *app.RequestContext) {
 	}
 	SetResponse(c, resp)
 	return
+}
+
+var videoFileExt = []string{"mp4", "flv"}
+
+func IsVideoAllowed(suffix string) bool {
+	for _, fileExt := range videoFileExt {
+		if suffix == fileExt {
+			return true
+		}
+	}
+	return false
 }

@@ -3,11 +3,16 @@ package dal
 import (
 	"context"
 	"fmt"
+	"io"
 
 	"github.com/edufriendchen/light-tiktok/kitex_gen/feed"
 	"github.com/edufriendchen/light-tiktok/kitex_gen/user"
+	"github.com/edufriendchen/light-tiktok/pkg/consts"
 	"github.com/edufriendchen/light-tiktok/pkg/errno"
+	"github.com/edufriendchen/light-tiktok/pkg/global"
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
+	"github.com/qiniu/go-sdk/v7/auth/qbox"
+	"github.com/qiniu/go-sdk/v7/storage"
 )
 
 const (
@@ -132,4 +137,24 @@ func MGetPublishListById(ctx context.Context, session neo4j.SessionWithContext, 
 		return true, nil
 	})
 	return videoList, err
+}
+
+func MinioUpload(file io.Reader, filename string, size int64) (string, error) {
+	putPolicy := storage.PutPolicy{
+		Scope: global.Config.GetString(consts.MINIO_BUCKET_NAME),
+	}
+	mac := qbox.NewMac(global.Config.GetString(consts.MINIO_ACCESS_KEY), global.Config.GetString(consts.MINIO_SECRET_ACCESS_KEY))
+	upToken := putPolicy.UploadToken(mac)
+	cfg := storage.Config{}
+	cfg.Region = &storage.ZoneHuabei // 空间对应的机房
+	cfg.UseHTTPS = true              // 是否使用https域名
+	cfg.UseCdnDomains = false        // 上传是否使用CDN上传加速
+	formUploader := storage.NewFormUploader(&cfg)
+	ret := storage.PutRet{}
+	putExtra := storage.PutExtra{}
+	err := formUploader.Put(context.Background(), &ret, upToken, filename, file, size, &putExtra)
+	if err != nil {
+		return "", err
+	}
+	return ret.Key, nil
 }

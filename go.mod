@@ -8,51 +8,72 @@ require (
 	github.com/apache/thrift v0.17.0
 	github.com/cloudwego/hertz v0.5.1
 	github.com/cloudwego/kitex v0.4.4
+	github.com/dgraph-io/ristretto v0.1.1
+	github.com/eko/gocache/lib/v4 v4.1.2
+	github.com/eko/gocache/store/redis/v4 v4.1.2
+	github.com/eko/gocache/store/ristretto/v4 v4.1.2
+	github.com/go-redis/redis/v8 v8.11.5
+	github.com/go-redsync/redsync/v4 v4.8.1
 	github.com/gofrs/uuid v4.3.1+incompatible
 	github.com/golang-jwt/jwt/v4 v4.4.1
-	github.com/hertz-contrib/jwt v1.0.1
 	github.com/hertz-contrib/obs-opentelemetry/logging/logrus v0.1.1
 	github.com/hertz-contrib/registry/nacos v0.0.0-20221226122036-3c451682dc72
 	github.com/kitex-contrib/obs-opentelemetry v0.1.0
+	github.com/kitex-contrib/obs-opentelemetry/logging/logrus v0.0.0-20221109071748-a433b0b57972
 	github.com/kitex-contrib/registry-nacos v0.0.1
+	github.com/minio/minio-go/v7 v7.0.47
 	github.com/nacos-group/nacos-sdk-go v1.1.4
 	github.com/neo4j/neo4j-go-driver/v5 v5.4.0
+	github.com/opentracing/opentracing-go v1.2.0
+	github.com/qiniu/go-sdk/v7 v7.14.0
+	github.com/sony/sonyflake v1.1.0
+	github.com/spf13/viper v1.15.0
+	github.com/uber/jaeger-client-go v2.29.1+incompatible
+	go.opencensus.io v0.24.0
 	golang.org/x/crypto v0.5.0
+	gorm.io/driver/mysql v1.4.5
+	gorm.io/gorm v1.24.3
+	gorm.io/plugin/opentelemetry v0.1.0
 )
 
 require (
-	github.com/aws/aws-sdk-go v1.38.20 // indirect
+	github.com/beorn7/perks v1.0.1 // indirect
+	github.com/cespare/xxhash/v2 v2.2.0 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/dustin/go-humanize v1.0.0 // indirect
 	github.com/go-sql-driver/mysql v1.7.0 // indirect
-	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
+	github.com/golang/glog v1.0.0 // indirect
+	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
+	github.com/golang/mock v1.6.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
+	github.com/hashicorp/errwrap v1.1.0 // indirect
+	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/hertz-contrib/obs-opentelemetry/tracing v0.1.1 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
-	github.com/kitex-contrib/obs-opentelemetry/logging/logrus v0.0.0-20221109071748-a433b0b57972 // indirect
 	github.com/klauspost/compress v1.15.9 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mattn/go-isatty v0.0.17 // indirect
+	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
 	github.com/minio/md5-simd v1.1.2 // indirect
-	github.com/minio/minio-go/v7 v7.0.47 // indirect
 	github.com/minio/sha256-simd v1.0.0 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.6 // indirect
-	github.com/qiniu/go-sdk/v7 v7.14.0 // indirect
+	github.com/prometheus/client_golang v1.14.0 // indirect
+	github.com/prometheus/client_model v0.3.0 // indirect
+	github.com/prometheus/common v0.37.0 // indirect
+	github.com/prometheus/procfs v0.8.0 // indirect
 	github.com/rs/xid v1.4.0 // indirect
-	github.com/sony/sonyflake v1.1.0 // indirect
 	github.com/spf13/afero v1.9.3 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/spf13/viper v1.15.0 // indirect
 	github.com/subosito/gotenv v1.4.2 // indirect
-	github.com/u2takey/ffmpeg-go v0.4.1 // indirect
-	github.com/u2takey/go-utils v0.3.1 // indirect
-	gorm.io/driver/mysql v1.4.5 // indirect
-	gorm.io/gorm v1.24.3 // indirect
-	gorm.io/plugin/opentelemetry v0.1.0 // indirect
+	github.com/uber/jaeger-lib v2.4.1+incompatible // indirect
+	go.opentelemetry.io/contrib/propagators/jaeger v1.8.0 // indirect
+	go.opentelemetry.io/contrib/propagators/opencensus v0.33.0 // indirect
+	go.opentelemetry.io/otel/bridge/opencensus v0.31.0 // indirect
+	golang.org/x/exp v0.0.0-20221126150942-6ab00d035af9 // indirect
 )
 
 require (
@@ -114,7 +135,7 @@ require (
 	golang.org/x/net v0.5.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/sys v0.4.0 // indirect
-	golang.org/x/text v0.6.0 // indirect
+	golang.org/x/text v0.7.0 // indirect
 	google.golang.org/genproto v0.0.0-20221227171554-f9683d7f8bef // indirect
 	google.golang.org/grpc v1.52.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
